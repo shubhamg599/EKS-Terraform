@@ -36,7 +36,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
         with:
-          role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS }}
+          role-to-assume: ${{ secrets.AWS_GITHUB_ROLE }}
           aws-region: us-east-1
 
       - name: Terraform Init
