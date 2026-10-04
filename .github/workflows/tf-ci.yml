@@ -4,9 +4,9 @@ on:
   pull_request:
     branches:
       - main
-  push:
-    branches:
-      - main
+    paths:
+      - 'environments/dev/**'
+      - 'modules/**'
 
 permissions:
   contents: read
@@ -14,18 +14,12 @@ permissions:
 
 jobs:
   terraform-ci:
-    name: Terraform CI
+    name: Terraform CI - Dev
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        environment:
-          - dev
-          - prod
 
     defaults:
       run:
-        working-directory: environments/${{ matrix.environment }}
+        working-directory: environments/dev
 
     steps:
       - name: Checkout repository
@@ -39,7 +33,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
         with:
-          role-to-assume: ${{ secrets.AWS_GITHUB_ROLE }}
+          role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS }}
           aws-region: us-east-1
 
       - name: Terraform Format Check
